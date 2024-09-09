@@ -67,4 +67,38 @@ spec:
     - protocol: TCP
       port: 80
       targetPort: 8000
-
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: postgress-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: postgress-deployment
+  template:
+    metadata:
+      labels:
+        app: postgress-deployment
+    spec:
+      containers:
+      - name: postgress
+        image: bitnami/postgresql:latest
+        imagePullPolicy: Always
+        env:
+        - name: POSTGRESQL_PASSWORD
+          value: "$POSTGRESQL_PASSWORD"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: postgress-service
+spec:
+  selector:
+    app: postgress-deployment
+  type: ClusterIP
+  ports:
+    - protocol: TCP
+      port: 5432
+      targetPort: 5432
