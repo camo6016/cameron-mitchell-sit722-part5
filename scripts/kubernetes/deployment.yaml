@@ -14,11 +14,11 @@ spec:
     spec:
       containers: 
       - name: books-deployment
-        image: seventwopass.azurecr.io/seventwopassbooks:v0.1
+        image: $CONTAINER_REGISTRY/book_catalog:$VERSION
         imagePullPolicy: Always
         env:
         - name: DATABASE_URL
-          value: "postgresql://seventwopassinventory_user:sF6wYJeS9lCjn4l0lRcOCWDOOcpWCbuB@dpg-cr2rkmrtq21c73fdr2p0-a.oregon-postgres.render.com/seventwopassinventory"
+          value: "postgresql://postgres:$POSTGRESQL_PASSWORD@somethinglocal/postgres"
 ---
 apiVersion: v1
 kind: Service
@@ -49,11 +49,11 @@ spec:
     spec:
       containers:
       - name: inventory-deployment
-        image: seventwopass.azurecr.io/seventwopassinventory:v0.1
+        image: $CONTAINER_REGISTRY/inventory_management:$VERSION
         imagePullPolicy: Always
         env:
         - name: DATABASE_URL
-          value: "postgresql://seventwopassinventory_user:sF6wYJeS9lCjn4l0lRcOCWDOOcpWCbuB@dpg-cr2rkmrtq21c73fdr2p0-a.oregon-postgres.render.com/seventwopassinventory"
+          value: "postgresql://postgres:$POSTGRESQL_PASSWORD@somethinglocal/postgres"
 ---
 apiVersion: v1
 kind: Service
