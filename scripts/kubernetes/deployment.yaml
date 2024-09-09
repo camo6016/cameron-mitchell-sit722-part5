@@ -18,7 +18,7 @@ spec:
         imagePullPolicy: Always
         env:
         - name: DATABASE_URL
-          value: "postgresql://postgres:$POSTGRESQL_PASSWORD@somethinglocal/postgres"
+          value: "postgresql://postgres:$POSTGRESQL_PASSWORD@postgress-service.default.svc.cluster.local/postgres"
 ---
 apiVersion: v1
 kind: Service
@@ -53,7 +53,7 @@ spec:
         imagePullPolicy: Always
         env:
         - name: DATABASE_URL
-          value: "postgresql://postgres:$POSTGRESQL_PASSWORD@somethinglocal/postgres"
+          value: "postgresql://postgres:$POSTGRESQL_PASSWORD@postgress-service.default.svc.cluster.local/postgres"
 ---
 apiVersion: v1
 kind: Service
