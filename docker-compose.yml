@@ -1,1 +1,52 @@
-# Your Solution
+version: '3'
+
+services:
+
+  traefik:
+    image: "traefik:v3.1"
+    container_name: "traefik"
+    command:
+      - "--log.level=DEBUG"
+      - "--api.insecure=true"
+      - "--providers.docker=true"
+      - "--providers.docker.exposedbydefault=false"
+      - "--entryPoints.web.address=:80"
+    ports:
+      - "81:80"
+      - "8081:8080"
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock:ro"
+
+  inventory:
+    image: seventwopassinventory:v0.1
+    container_name: inventory
+    build: 
+      context: ./inventory_management
+      dockerfile: Dockerfile
+    container_name: recommendations
+    environment:
+      - DATABASE_URL=postgresql://seventwopassinventory_user:sF6wYJeS9lCjn4l0lRcOCWDOOcpWCbuB@dpg-cr2rkmrtq21c73fdr2p0-a.oregon-postgres.render.com/seventwopassinventory
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.inventory.rule=PathPrefix(`/inventory_management`)"
+      - "traefik.http.middlewares.inventory-strip.stripPrefix.prefixes=/inventory_management"
+      - "traefik.http.routers.inventory.middlewares=inventory-strip"
+      - "traefik.http.routers.inventory.entrypoints=web"
+      - "traefik.http.services.inventory.loadbalancer.server.port=8000"
+
+
+  books:
+    image: seventwopassbooks:v0.1
+    container_name: books
+    build:
+      context: ./book_catalog
+      dockerfile: Dockerfile
+    environment:
+      - DATABASE_URL=postgresql://seventwopassinventory_user:sF6wYJeS9lCjn4l0lRcOCWDOOcpWCbuB@dpg-cr2rkmrtq21c73fdr2p0-a.oregon-postgres.render.com/seventwopassinventory
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.books.rule=PathPrefix(`/book_catalog`)"
+      - "traefik.http.middlewares.books-strip.stripPrefix.prefixes=/book_catalog"
+      - "traefik.http.routers.books.middlewares=books-strip"
+      - "traefik.http.routers.books.entrypoints=web"
+      - "traefik.http.services.books.loadbalancer.server.port=8000"
