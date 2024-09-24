@@ -6,11 +6,9 @@ on:
   #     - main
   workflow_dispatch: 
 
-#Special permissions required for OIDC authentication
 permissions:
   id-token: write
   contents: read
-  pull-requests: write
 
 jobs:
   deploy-terraform-infra:
