@@ -30,7 +30,6 @@ jobs:
       uses: actions/checkout@v4
       
     - name: Setup Terraform
-      working-directory: ./create_k8s
       uses: hashicorp/setup-terraform@v3
 
     - name: Terraform Init
