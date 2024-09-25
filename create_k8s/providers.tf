@@ -7,11 +7,16 @@ terraform {
       version = "~> 4.0"
     }
   }
-
+  backend "azurerm" {
+    resource_group_name  = "tfstate"
+    storage_account_name = ""tfstate2315"
+    container_name       = "tfstate"
+    key                  = "terraform.tfstate"
+  }
   required_version = ">= 1.5.6"
 }
 
 provider "azurerm" {
-  resource_provider_registrations = "none" # This is only required when the User, Service Principal, or Identity running Terraform lacks the permissions to register Azure Resource Providers.
+  resource_provider_registrations = "none"
   features {}
 }
