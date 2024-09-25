@@ -37,7 +37,7 @@ jobs:
 
     - name: Terraform Init
       working-directory: ./create_k8s
-      run: TF_LOG=debug terraform init
+      run: terraform init
       
     - name: Terraform Apply
       working-directory: ./create_k8s
