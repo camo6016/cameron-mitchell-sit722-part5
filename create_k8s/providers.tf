@@ -12,6 +12,7 @@ terraform {
     storage_account_name = ""tfstate2315"
     container_name       = "tfstate"
     key                  = "terraform.tfstate"
+    use_oidc = true
   }
   required_version = ">= 1.5.6"
 }
