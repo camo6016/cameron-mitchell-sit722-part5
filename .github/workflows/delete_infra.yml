@@ -1,4 +1,4 @@
-name: Infra Deployment
+name: Infra Destroy
 
 on:
   workflow_dispatch: 
@@ -15,7 +15,7 @@ env:
 
 jobs:
   deploy-terraform-infra:
-    name: 'Terraform Apply'
+    name: 'Terraform Destroy'
     runs-on: ubuntu-latest
 
     steps:
