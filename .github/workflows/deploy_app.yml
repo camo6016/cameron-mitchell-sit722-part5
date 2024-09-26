@@ -41,7 +41,9 @@ jobs:
     - name: Publish
       run: ./scripts/push-image.sh
 
-      ## Login
-
     - name: Deploy
       run: ./scripts/deploy.sh
+      
+    - name: Get Services
+      run: kubectl get all
+      
